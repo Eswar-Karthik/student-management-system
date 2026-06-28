@@ -1,0 +1,46 @@
+{% extends "_shell.html" %}
+{% block content %}
+<h1 class="page-title">Attendance</h1>
+<p class="page-sub">Mark and review daily attendance for every student.</p>
+
+<form method="post" class="card-soft p-3 mb-3">
+  <div class="row g-2 align-items-end mb-3">
+    <div class="col-md-3">
+      <label class="form-label">Date</label>
+      <input type="date" name="date" class="form-control" value="{{ today }}">
+    </div>
+    <div class="col-md-9 text-md-end">
+      <button class="btn btn-grad"><i class="fa fa-save me-1"></i>Save Attendance</button>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table-modern w-100">
+      <thead><tr><th>Student</th><th>Roll No</th><th>Course</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for s in students %}
+        <tr>
+          <td><div class="d-flex align-items-center gap-2"><div class="avatar">{{s.name[0]|upper}}</div>{{s.name}}</div></td>
+          <td>{{s.roll_no}}</td><td>{{s.course}}</td>
+          <td>
+            <select name="status_{{s.id}}" class="form-select form-select-sm" style="max-width:160px;">
+              {% for st in ['Present','Absent','Late','Leave'] %}<option>{{st}}</option>{% endfor %}
+            </select>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</form>
+
+<div class="card-soft p-3">
+  <h5>Recent Records</h5>
+  <table class="table-modern w-100">
+    <thead><tr><th>Student</th><th>Date</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for r in records %}<tr><td>{{ r.student_id }}</td><td>{{r.date}}</td><td><span class="badge-pill badge-{{r.status|lower}}">{{r.status}}</span></td></tr>
+      {% else %}<tr><td colspan="3" class="text-muted text-center py-3">No records yet.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

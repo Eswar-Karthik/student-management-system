@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+{% block title %}EduManage — Modern Student Management System{% endblock %}
+{% block body %}
+<nav class="navbar navbar-expand-lg sticky-top" style="background: var(--bg-elev); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="/">
+      <span class="logo" style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#0ea5e9);display:grid;place-items:center;color:#fff;"><i class="fa-solid fa-graduation-cap"></i></span>
+      EduManage
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+        <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+        <li class="nav-item"><a class="nav-link" href="#benefits">Benefits</a></li>
+        <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
+        <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        <li class="nav-item"><a class="btn btn-grad ms-lg-2" href="{{ url_for('login') }}">Sign in <i class="fa fa-arrow-right ms-1"></i></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <span class="badge rounded-pill px-3 py-2 mb-3" style="background: var(--primary-50); color: var(--primary-600);">
+          <i class="fa fa-sparkles me-1"></i> Built for modern schools and colleges
+        </span>
+        <h1>Run your campus on a <span class="gradient-text">modern, beautiful</span> student platform.</h1>
+        <p class="lead mt-3">EduManage brings students, teachers, attendance, results, and fees into one elegant dashboard — designed to feel as polished as the SaaS products you already love.</p>
+        <div class="d-flex flex-wrap gap-3 mt-4">
+          <a href="{{ url_for('login') }}" class="btn btn-grad btn-lg">Get Started <i class="fa fa-arrow-right ms-2"></i></a>
+          <a href="#features" class="btn btn-outline-light-2 btn-lg" style="border-radius: 999px; padding: 12px 22px;">Explore Features</a>
+        </div>
+        <div class="d-flex gap-4 mt-4 text-muted small">
+          <div><i class="fa fa-check text-success me-1"></i> No setup required</div>
+          <div><i class="fa fa-check text-success me-1"></i> Free demo data</div>
+          <div><i class="fa fa-check text-success me-1"></i> Open source</div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="card-soft p-3" style="border-radius: 22px;">
+          <div class="d-flex gap-2 mb-2">
+            <span style="width:10px;height:10px;border-radius:50%;background:#ef4444;"></span>
+            <span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;"></span>
+            <span style="width:10px;height:10px;border-radius:50%;background:#10b981;"></span>
+          </div>
+          <div class="row g-3">
+            <div class="col-6"><div class="stat-pill"><div class="num" data-counter="{{ stats.students or 240 }}">0</div><div class="text-muted small">Students</div></div></div>
+            <div class="col-6"><div class="stat-pill"><div class="num" data-counter="{{ stats.teachers or 36 }}">0</div><div class="text-muted small">Teachers</div></div></div>
+            <div class="col-6"><div class="stat-pill"><div class="num" data-counter="{{ stats.courses or 12 }}">0</div><div class="text-muted small">Courses</div></div></div>
+            <div class="col-6"><div class="stat-pill"><div class="num" data-counter="96">0</div><div class="text-muted small">Attendance %</div></div></div>
+          </div>
+          <canvas id="heroChart" class="mt-3" height="140"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="about">
+  <div class="container text-center">
+    <h2>One platform. Every part of campus life.</h2>
+    <p class="text-muted col-lg-8 mx-auto">From the first day of admission to the final report card — EduManage handles it. Built for administrators who want clarity, teachers who want speed, and students who want transparency.</p>
+  </div>
+</section>
+
+<section class="section" id="features" style="background: var(--bg-elev); border-block: 1px solid var(--border);">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2>Everything you need, beautifully organized</h2>
+      <p class="text-muted">A modern toolkit for managing every aspect of your institution.</p>
+    </div>
+    <div class="row g-4">
+      {% for icon, title, desc in [
+        ('user-graduate', 'Student Records', 'Rich profiles with photo, guardian, blood group, CGPA, and fee status.'),
+        ('calendar-check', 'Smart Attendance', 'Mark Present, Absent, Late, or Leave in one click. Auto-generated reports.'),
+        ('square-poll-vertical', 'Results & Grading', 'Internal + external marks, auto percentage, grade, and downloadable report card.'),
+        ('money-bill-wave', 'Fees & Receipts', 'Track Paid, Pending, and Partial. Generate printable receipts instantly.'),
+        ('chart-line', 'Analytics Dashboard', 'Live counters, growth charts, attendance breakdown, fee collection.'),
+        ('shield-halved', 'Secure & Role-based', 'Hashed passwords, sessions, and role-based access for admin/teacher/student.'),
+      ] %}
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-{{icon}}"></i></div>
+          <h5 class="fw-bold">{{title}}</h5>
+          <p class="text-muted mb-0">{{desc}}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="benefits">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <h2>Built to feel like the best SaaS you've ever used.</h2>
+        <p class="text-muted">Stop wrestling with clunky tools. EduManage gives administrators a calm, focused workspace and students a transparent view of their progress.</p>
+        <ul class="list-unstyled mt-4">
+          {% for b in ['Lightning-fast global search','Dark & light mode','Mobile-first responsive design','One-click CSV & PDF exports','Animated dashboards','Activity log & notifications'] %}
+            <li class="mb-2"><i class="fa fa-circle-check text-success me-2"></i>{{b}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-lg-6">
+        <div class="row g-3">
+          <div class="col-6"><div class="stat-pill"><div class="num">99.9%</div><div class="text-muted small">Uptime</div></div></div>
+          <div class="col-6"><div class="stat-pill"><div class="num">120+</div><div class="text-muted small">Institutions</div></div></div>
+          <div class="col-6"><div class="stat-pill"><div class="num">50K+</div><div class="text-muted small">Students Managed</div></div></div>
+          <div class="col-6"><div class="stat-pill"><div class="num">4.9/5</div><div class="text-muted small">Avg. Rating</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="testimonials" style="background: var(--bg-elev); border-block: 1px solid var(--border);">
+  <div class="container">
+    <div class="text-center mb-5"><h2>Loved by educators</h2></div>
+    <div class="row g-4">
+      {% for name, role, quote in [
+        ('Priya Sharma','Principal, Greenfield High','"EduManage cut our admin work in half. Attendance and fees finally feel effortless."'),
+        ('Michael Chen','Dean, Riverside College','"The dashboard is gorgeous and the data is always accurate. Our staff actually enjoy using it."'),
+        ('Sara Khan','Head Teacher, Bright Academy','"Parents love the transparency. Students love the report cards. We love everything."'),
+      ] %}
+      <div class="col-md-4">
+        <div class="feature-card">
+          <div class="text-warning mb-2">{% for _ in range(5) %}<i class="fa fa-star"></i>{% endfor %}</div>
+          <p>{{ quote }}</p>
+          <div class="d-flex align-items-center gap-2 mt-3">
+            <div class="avatar">{{ name[0] }}</div>
+            <div><div class="fw-bold">{{ name }}</div><div class="text-muted small">{{ role }}</div></div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="container">
+    <div class="text-center mb-5"><h2>Frequently asked questions</h2></div>
+    <div class="row justify-content-center"><div class="col-lg-8">
+      {% for q, a in [
+        ('Is EduManage free to use?','Yes — this is an open source project you can run locally or deploy to any server.'),
+        ('Does it support multiple roles?','Admins, Teachers, and Students each get a role-appropriate experience.'),
+        ('Can I export data?','Yes — CSV and printable PDF exports are built in for every module.'),
+        ('Is the database secure?','Passwords are hashed with Werkzeug. Sessions enforce role-based access control.'),
+      ] %}
+      <div class="faq-item">
+        <div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 fw-bold">{{ q }}</h6><i class="fa fa-plus text-muted"></i></div>
+        <p class="text-muted mt-2 mb-0">{{ a }}</p>
+      </div>
+      {% endfor %}
+    </div></div>
+  </div>
+</section>
+
+<section class="section" id="contact" style="background: var(--bg-elev); border-block: 1px solid var(--border);">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-6">
+        <h2>Get in touch</h2>
+        <p class="text-muted">Have questions or want a custom rollout for your institution? Send us a note.</p>
+        <ul class="list-unstyled text-muted">
+          <li class="mb-2"><i class="fa fa-envelope me-2 text-primary"></i>hello@edumanage.app</li>
+          <li class="mb-2"><i class="fa fa-phone me-2 text-primary"></i>+1 (555) 010-2024</li>
+          <li><i class="fa fa-location-dot me-2 text-primary"></i>Remote-first, worldwide</li>
+        </ul>
+      </div>
+      <div class="col-lg-6">
+        <form class="card-soft p-4" onsubmit="event.preventDefault(); showToast('Thanks! We\'ll be in touch.', 'success'); this.reset();">
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label">Name</label><input class="form-control" required></div>
+            <div class="col-md-6"><label class="form-label">Email</label><input type="email" class="form-control" required></div>
+            <div class="col-12"><label class="form-label">Institution</label><input class="form-control"></div>
+            <div class="col-12"><label class="form-label">Message</label><textarea rows="4" class="form-control" required></textarea></div>
+            <div class="col-12"><button class="btn btn-grad w-100">Send message</button></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="d-flex align-items-center gap-2 fw-bold mb-2">
+          <span class="logo" style="width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#0ea5e9);display:grid;place-items:center;color:#fff;"><i class="fa-solid fa-graduation-cap"></i></span>
+          EduManage
+        </div>
+        <p class="small mb-0">A modern, open source student management platform.</p>
+      </div>
+      <div class="col-6 col-lg-2"><h6 class="fw-bold">Product</h6><ul class="list-unstyled small"><li><a href="#features">Features</a></li><li><a href="#benefits">Benefits</a></li></ul></div>
+      <div class="col-6 col-lg-2"><h6 class="fw-bold">Resources</h6><ul class="list-unstyled small"><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li></ul></div>
+      <div class="col-lg-4">
+        <h6 class="fw-bold">Stay updated</h6>
+        <form class="d-flex gap-2" onsubmit="event.preventDefault(); showToast('Subscribed!', 'success'); this.reset();">
+          <input class="form-control" type="email" placeholder="you@school.edu" required>
+          <button class="btn btn-grad">Join</button>
+        </form>
+      </div>
+    </div>
+    <hr style="border-color: var(--border);">
+    <div class="text-center small">© 2024 EduManage. Built with Flask, Bootstrap & ❤️.</div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener("load", () => {
+  const ctx = document.getElementById('heroChart');
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'],
+      datasets: [{
+        label: 'Enrollments',
+        data: [12,19,17,25,32,40,48,55,62],
+        borderColor: '#6366f1',
+        backgroundColor: 'rgba(99,102,241,.15)',
+        fill: true, tension: .4, pointRadius: 0
+      }]
+    },
+    options: { plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
+  });
+});
+</script>
+{% endblock %}

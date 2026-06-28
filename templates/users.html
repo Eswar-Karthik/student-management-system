@@ -1,0 +1,44 @@
+{% extends "_shell.html" %}
+{% block content %}
+<h1 class="page-title">Users</h1>
+<p class="page-sub">Manage portal accounts and roles.</p>
+
+<div class="row g-3">
+  <div class="col-lg-4">
+    <div class="card-soft p-3">
+      <h5>Add User</h5>
+      <form method="post" class="row g-2 mt-2">
+        <div class="col-12"><input name="username" class="form-control" placeholder="Username" required></div>
+        <div class="col-12"><input name="password" type="password" class="form-control" placeholder="Password" required></div>
+        <div class="col-12">
+          <select name="role" class="form-select" required>
+            <option value="admin">Admin</option><option value="teacher">Teacher</option><option value="student">Student</option>
+          </select>
+        </div>
+        <div class="col-12"><button class="btn btn-grad w-100">Create</button></div>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="card-soft p-2">
+      <table class="table-modern w-100">
+        <thead><tr><th>Username</th><th>Role</th><th>Created</th><th></th></tr></thead>
+        <tbody>
+          {% for u in users %}
+          <tr>
+            <td><div class="d-flex align-items-center gap-2"><div class="avatar">{{u.username[0]|upper}}</div>{{u.username}}</div></td>
+            <td><span class="badge-pill badge-paid text-capitalize">{{u.role}}</span></td>
+            <td class="text-muted small">{{ u.created_at.strftime('%b %d, %Y') }}</td>
+            <td class="text-end">
+              <form method="post" action="{{ url_for('delete_user', uid=u.id) }}" onsubmit="return confirmDelete(event)" class="d-inline">
+                <button class="btn btn-sm btn-outline-light-2 text-danger"><i class="fa fa-trash"></i></button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

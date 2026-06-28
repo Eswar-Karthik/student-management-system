@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Sign in — EduManage{% endblock %}
+{% block body %}
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="text-center mb-3">
+      <div class="d-inline-flex align-items-center justify-content-center mb-2"
+           style="width:54px;height:54px;border-radius:14px;background: rgba(255,255,255,.25);">
+        <i class="fa-solid fa-graduation-cap fa-lg"></i>
+      </div>
+      <h3 class="mb-1">Welcome to EduManage</h3>
+      <p style="color:#cbd5e1; margin:0;">Sign in to your account to continue</p>
+    </div>
+
+    <form method="post">
+      <div class="role-tabs">
+        <input type="radio" name="role" id="r1" value="admin" checked>
+        <label for="r1"><i class="fa fa-user-shield me-1"></i> Admin</label>
+        <input type="radio" name="role" id="r2" value="teacher">
+        <label for="r2"><i class="fa fa-chalkboard-user me-1"></i> Teacher</label>
+        <input type="radio" name="role" id="r3" value="student">
+        <label for="r3"><i class="fa fa-user-graduate me-1"></i> Student</label>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" name="username" class="form-control" placeholder="Enter your username" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+      </div>
+      <button class="btn btn-grad">Sign in <i class="fa fa-arrow-right ms-1"></i></button>
+    </form>
+
+    <div class="demo-creds">
+      <b>Demo accounts</b><br>
+      Admin — <code>admin / admin123</code><br>
+      Teacher — <code>teacher / teacher123</code><br>
+      Student — <code>student / student123</code>
+    </div>
+
+    <div class="text-center mt-3"><a href="/" style="color:#cbd5e1;"><i class="fa fa-arrow-left me-1"></i>Back to home</a></div>
+  </div>
+</div>
+{% endblock %}

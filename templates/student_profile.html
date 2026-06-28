@@ -1,0 +1,76 @@
+{% extends "_shell.html" %}
+{% block content %}
+<div class="profile-hero mb-3">
+  <div class="pa">{{ student.name[0]|upper }}</div>
+  <div class="flex-grow-1">
+    <h3 class="mb-1">{{ student.name }}</h3>
+    <div class="opacity-75">{{ student.roll_no }} · {{ student.course }} · Sem {{ student.semester }}</div>
+    <div class="d-flex gap-3 mt-2 small opacity-75">
+      <span><i class="fa fa-envelope me-1"></i>{{ student.email }}</span>
+      <span><i class="fa fa-phone me-1"></i>{{ student.phone }}</span>
+      <span><i class="fa fa-droplet me-1"></i>{{ student.blood_group }}</span>
+    </div>
+  </div>
+  <div class="text-end">
+    <div class="h4 mb-0">{{ '%.2f' % (student.cgpa or 0) }}</div>
+    <div class="small opacity-75">CGPA</div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-5">
+    <div class="card-soft p-3">
+      <h5 class="mb-3">Profile</h5>
+      <dl class="row mb-0">
+        {% for k, v in [
+          ('Department', student.department), ('Gender', student.gender),
+          ('Date of Birth', student.dob), ('Address', student.address),
+          ('Guardian', student.guardian_name), ('Guardian Contact', student.guardian_contact),
+          ('Admission Date', student.admission_date), ('Fee Status', student.fee_status)
+        ] %}
+        <dt class="col-5 text-muted fw-normal">{{ k }}</dt><dd class="col-7">{{ v }}</dd>
+        {% endfor %}
+      </dl>
+    </div>
+  </div>
+  <div class="col-lg-7">
+    <div class="card-soft p-3 mb-3">
+      <h5>Results</h5>
+      <table class="table-modern w-100">
+        <thead><tr><th>Subject</th><th>Internal</th><th>External</th><th>Total</th><th>%</th><th>Grade</th></tr></thead>
+        <tbody>
+          {% for r in results %}
+          <tr><td>{{r.subject}}</td><td>{{r.internal}}</td><td>{{r.external}}</td><td>{{r.total}}</td><td>{{r.percentage}}%</td><td><span class="badge-pill badge-paid">{{r.grade}}</span></td></tr>
+          {% else %}<tr><td colspan="6" class="text-muted text-center py-3">No results yet.</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="card-soft p-3">
+          <h6>Attendance</h6>
+          <table class="table-modern w-100">
+            <thead><tr><th>Date</th><th>Status</th></tr></thead>
+            <tbody>
+              {% for a in attendance %}<tr><td>{{a.date}}</td><td><span class="badge-pill badge-{{a.status|lower}}">{{a.status}}</span></td></tr>
+              {% else %}<tr><td colspan="2" class="text-muted text-center py-3">No records.</td></tr>{% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card-soft p-3">
+          <h6>Fees</h6>
+          <table class="table-modern w-100">
+            <thead><tr><th>Date</th><th>Amount</th><th>Paid</th><th>Status</th></tr></thead>
+            <tbody>
+              {% for f in fees %}<tr><td>{{f.date}}</td><td>₹{{f.amount}}</td><td>₹{{f.paid}}</td><td><span class="badge-pill badge-{{f.status|lower}}">{{f.status}}</span></td></tr>
+              {% else %}<tr><td colspan="4" class="text-muted text-center py-3">No fees recorded.</td></tr>{% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

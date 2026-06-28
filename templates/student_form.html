@@ -1,0 +1,69 @@
+{% extends "_shell.html" %}
+{% block content %}
+<h1 class="page-title">{{ 'Edit' if student else 'Add' }} Student</h1>
+<p class="page-sub">Fill in the details below. All fields marked with * are required.</p>
+
+<form method="post" class="card-soft p-4">
+  <div class="row g-3">
+    {% set f = student or {} %}
+    {% macro fld(label, name, type='text', val='') %}
+      <div class="col-md-4">
+        <label class="form-label">{{ label }}</label>
+        <input type="{{type}}" name="{{name}}" class="form-control" value="{{ val }}" required>
+      </div>
+    {% endmacro %}
+    {{ fld('Roll Number *', 'roll_no', val=(student.roll_no if student else '')) }}
+    {{ fld('Full Name *', 'name', val=(student.name if student else '')) }}
+    {{ fld('Email *', 'email', type='email', val=(student.email if student else '')) }}
+    {{ fld('Phone *', 'phone', val=(student.phone if student else '')) }}
+    <div class="col-md-4">
+      <label class="form-label">Gender *</label>
+      <select name="gender" class="form-select" required>
+        {% for g in ['Male','Female','Other'] %}
+        <option {% if student and student.gender==g %}selected{% endif %}>{{g}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    {{ fld('Date of Birth *','dob', type='date', val=(student.dob if student else '')) }}
+    <div class="col-md-4">
+      <label class="form-label">Course *</label>
+      <select name="course" class="form-select" required>
+        {% for c in courses %}<option {% if student and student.course==c.name %}selected{% endif %}>{{ c.name }}</option>{% endfor %}
+      </select>
+    </div>
+    {{ fld('Semester *','semester', val=(student.semester if student else '')) }}
+    {{ fld('Department *','department', val=(student.department if student else '')) }}
+    <div class="col-md-8">
+      <label class="form-label">Address *</label>
+      <input type="text" name="address" class="form-control" value="{{ student.address if student else '' }}" required>
+    </div>
+    {{ fld("Guardian Name *",'guardian_name', val=(student.guardian_name if student else '')) }}
+    {{ fld('Guardian Contact *','guardian_contact', val=(student.guardian_contact if student else '')) }}
+    <div class="col-md-4">
+      <label class="form-label">Blood Group</label>
+      <select name="blood_group" class="form-select">
+        {% for b in ['A+','A-','B+','B-','AB+','AB-','O+','O-'] %}
+        <option {% if student and student.blood_group==b %}selected{% endif %}>{{b}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    {{ fld('Admission Date *','admission_date', type='date', val=(student.admission_date if student else '')) }}
+    <div class="col-md-4">
+      <label class="form-label">Fee Status</label>
+      <select name="fee_status" class="form-select">
+        {% for s in ['Paid','Pending','Partial'] %}
+        <option {% if student and student.fee_status==s %}selected{% endif %}>{{s}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">CGPA</label>
+      <input type="number" step="0.01" min="0" max="10" name="cgpa" class="form-control" value="{{ student.cgpa if student else 0 }}">
+    </div>
+  </div>
+  <div class="d-flex justify-content-end gap-2 mt-4">
+    <a href="{{ url_for('students') }}" class="btn btn-outline-light-2">Cancel</a>
+    <button class="btn btn-grad">{{ 'Save changes' if student else 'Add Student' }}</button>
+  </div>
+</form>
+{% endblock %}

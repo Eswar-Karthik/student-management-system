@@ -1,0 +1,32 @@
+{% extends "_shell.html" %}
+{% block content %}
+<h1 class="page-title">Settings</h1>
+<p class="page-sub">Manage account, appearance, and database.</p>
+
+<div class="row g-3">
+  <div class="col-lg-6">
+    <div class="card-soft p-3">
+      <h5>Change Password</h5>
+      <form method="post" class="mt-2">
+        <label class="form-label">New password</label>
+        <input type="password" name="password" class="form-control mb-3" required>
+        <button class="btn btn-grad">Update</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card-soft p-3">
+      <h5>Appearance</h5>
+      <p class="text-muted">Toggle between light and dark mode.</p>
+      <button class="btn btn-outline-light-2" onclick="toggleTheme()"><i class="fa fa-circle-half-stroke me-1"></i>Toggle Theme</button>
+    </div>
+    {% if session.role=='admin' %}
+    <div class="card-soft p-3 mt-3">
+      <h5>Database</h5>
+      <p class="text-muted">Download a backup of the SQLite database file.</p>
+      <a href="{{ url_for('backup') }}" class="btn btn-outline-light-2"><i class="fa fa-download me-1"></i>Backup Database</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "_shell.html" %}
+{% block content %}
+<h1 class="page-title">Profile</h1>
+<p class="page-sub">Your account details.</p>
+<div class="profile-hero mb-3">
+  <div class="pa">{{ user.username[0]|upper }}</div>
+  <div>
+    <h3 class="mb-1">{{ user.username }}</h3>
+    <div class="opacity-75 text-capitalize">{{ user.role }}</div>
+    <div class="opacity-75 small mt-1">Member since {{ user.created_at.strftime('%b %d, %Y') }}</div>
+  </div>
+</div>
+<div class="card-soft p-3">
+  <h6 class="fw-bold">Account</h6>
+  <p class="text-muted mb-0">Manage your password and preferences from <a href="{{ url_for('settings') }}">Settings</a>.</p>
+</div>
+{% endblock %}

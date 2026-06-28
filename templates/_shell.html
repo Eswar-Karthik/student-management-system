@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo"><i class="fa-solid fa-graduation-cap"></i></div>
+      EduManage
+    </div>
+    <div class="nav-section">Main</div>
+    <a href="{{ url_for('dashboard') }}" class="nav-link {% if request.endpoint=='dashboard' %}active{% endif %}"><i class="fa-solid fa-gauge-high"></i>Dashboard</a>
+    <a href="{{ url_for('students') }}"  class="nav-link {% if 'student' in request.endpoint %}active{% endif %}"><i class="fa-solid fa-user-graduate"></i>Students</a>
+    <a href="{{ url_for('teachers') }}"  class="nav-link {% if 'teacher' in request.endpoint %}active{% endif %}"><i class="fa-solid fa-chalkboard-user"></i>Teachers</a>
+    <a href="{{ url_for('courses') }}"   class="nav-link {% if 'course' in request.endpoint %}active{% endif %}"><i class="fa-solid fa-book"></i>Courses</a>
+
+    <div class="nav-section">Academics</div>
+    <a href="{{ url_for('attendance') }}" class="nav-link {% if request.endpoint=='attendance' %}active{% endif %}"><i class="fa-solid fa-calendar-check"></i>Attendance</a>
+    <a href="{{ url_for('results') }}"    class="nav-link {% if request.endpoint=='results' %}active{% endif %}"><i class="fa-solid fa-square-poll-vertical"></i>Results</a>
+    <a href="{{ url_for('fees') }}"       class="nav-link {% if request.endpoint=='fees' %}active{% endif %}"><i class="fa-solid fa-money-bill-wave"></i>Fees</a>
+
+    <div class="nav-section">Insights</div>
+    <a href="{{ url_for('reports') }}"  class="nav-link {% if request.endpoint=='reports' %}active{% endif %}"><i class="fa-solid fa-file-export"></i>Reports</a>
+
+    {% if session.role == 'admin' %}
+    <div class="nav-section">Admin</div>
+    <a href="{{ url_for('users') }}"    class="nav-link {% if request.endpoint=='users' %}active{% endif %}"><i class="fa-solid fa-users-gear"></i>Users</a>
+    <a href="{{ url_for('settings') }}" class="nav-link {% if request.endpoint=='settings' %}active{% endif %}"><i class="fa-solid fa-sliders"></i>Settings</a>
+    {% endif %}
+
+    <div class="nav-section">Account</div>
+    <a href="{{ url_for('profile') }}" class="nav-link {% if request.endpoint=='profile' %}active{% endif %}"><i class="fa-solid fa-user"></i>Profile</a>
+    <a href="{{ url_for('logout') }}"  class="nav-link"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="icon-btn menu-toggle" onclick="toggleSidebar()"><i class="fa fa-bars"></i></button>
+      <form action="{{ url_for('students') }}" method="get" class="search">
+        <i class="fa fa-search"></i>
+        <input type="text" name="q" placeholder="Search students, courses, departments..." />
+      </form>
+      <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme"><i class="fa fa-circle-half-stroke"></i></button>
+      <button class="icon-btn" title="Notifications"><i class="fa fa-bell"></i></button>
+      <div class="d-flex align-items-center gap-2">
+        <div class="avatar">{{ session.username[0]|upper }}</div>
+        <div class="d-none d-md-block">
+          <div style="font-weight:600; line-height:1; font-size:.92rem;">{{ session.username }}</div>
+          <div style="font-size:.75rem; color: var(--text-muted); text-transform: capitalize;">{{ session.role }}</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="content fade-in">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+{% endblock %}

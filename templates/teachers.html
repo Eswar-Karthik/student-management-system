@@ -1,0 +1,41 @@
+{% extends "_shell.html" %}
+{% block content %}
+<h1 class="page-title">Teachers</h1>
+<p class="page-sub">Manage your teaching staff and their assigned subjects.</p>
+
+<div class="row g-3">
+  <div class="col-lg-4">
+    <div class="card-soft p-3">
+      <h5>Add Teacher</h5>
+      <form method="post" class="row g-2 mt-2">
+        <div class="col-12"><input name="name" class="form-control" placeholder="Full name" required></div>
+        <div class="col-12"><input name="email" type="email" class="form-control" placeholder="Email" required></div>
+        <div class="col-12"><input name="phone" class="form-control" placeholder="Phone" required></div>
+        <div class="col-12"><input name="subject" class="form-control" placeholder="Subject" required></div>
+        <div class="col-12"><input name="department" class="form-control" placeholder="Department" required></div>
+        <div class="col-12"><button class="btn btn-grad w-100">Add</button></div>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="card-soft p-2">
+      <table class="table-modern w-100">
+        <thead><tr><th>Name</th><th>Subject</th><th>Department</th><th>Contact</th><th></th></tr></thead>
+        <tbody>
+          {% for t in teachers %}
+          <tr>
+            <td><div class="d-flex align-items-center gap-2"><div class="avatar">{{t.name[0]|upper}}</div><div><div class="fw-semibold">{{t.name}}</div><div class="text-muted small">{{t.email}}</div></div></div></td>
+            <td>{{t.subject}}</td><td>{{t.department}}</td><td class="text-muted">{{t.phone}}</td>
+            <td class="text-end">
+              <form method="post" action="{{ url_for('delete_teacher', tid=t.id) }}" onsubmit="return confirmDelete(event)" class="d-inline">
+                <button class="btn btn-sm btn-outline-light-2 text-danger"><i class="fa fa-trash"></i></button>
+              </form>
+            </td>
+          </tr>
+          {% else %}<tr><td colspan="5" class="text-center text-muted py-4">No teachers yet.</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "_shell.html" %}
+{% block content %}
+<h1 class="page-title">Reports</h1>
+<p class="page-sub">Generate and export institution-wide reports.</p>
+
+<div class="row g-3">
+  <div class="col-md-3"><div class="stat-card"><div class="ic bg-1"><i class="fa fa-user-graduate"></i></div><div><div class="v">{{total_students}}</div><div class="l">Students</div></div></div></div>
+  <div class="col-md-3"><div class="stat-card"><div class="ic bg-2"><i class="fa fa-chalkboard-user"></i></div><div><div class="v">{{total_teachers}}</div><div class="l">Teachers</div></div></div></div>
+  <div class="col-md-3"><div class="stat-card"><div class="ic bg-3"><i class="fa fa-book"></i></div><div><div class="v">{{total_courses}}</div><div class="l">Courses</div></div></div></div>
+  <div class="col-md-3"><div class="stat-card"><div class="ic bg-4"><i class="fa fa-money-bill-wave"></i></div><div><div class="v">₹{{total_fees}}</div><div class="l">Fees Collected</div></div></div></div>
+</div>
+
+<div class="row g-3 mt-1">
+  {% for title, kind, icon in [
+    ('Student Report','students','user-graduate'),
+    ('Attendance Report','attendance','calendar-check'),
+    ('Result Report','results','square-poll-vertical'),
+    ('Fee Report','fees','money-bill-wave')
+  ] %}
+  <div class="col-md-6 col-xl-3">
+    <div class="card-soft p-3 h-100">
+      <div class="ic bg-{{loop.index}} mb-2"><i class="fa fa-{{icon}}"></i></div>
+      <h6 class="fw-bold">{{title}}</h6>
+      <p class="text-muted small">Download complete {{title|lower}} as CSV or printable PDF.</p>
+      <div class="d-flex gap-2">
+        <a href="{{ url_for('export_csv', kind=kind) }}" class="btn btn-sm btn-outline-light-2"><i class="fa fa-file-csv me-1"></i>CSV</a>
+        <a href="{{ url_for('export_pdf', kind=kind) }}" target="_blank" class="btn btn-sm btn-grad"><i class="fa fa-file-pdf me-1"></i>PDF</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
